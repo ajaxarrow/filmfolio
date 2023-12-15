@@ -19,6 +19,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
   Future<void> fetchMovies() async {
     _movies.clear();
     final movieData = await supabase.from('movie').select('*');
+    print(movieData);
     movieData.forEach((movie) {
       final movie_item = Movie(title: movie['title'], year: movie['year'], genre: movie['genre'], uid: movie['post_owner'], context: context, movieid: movie['id']);
       _movies.add(movie_item);
@@ -43,7 +44,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
 
   void _addMovie(Movie movie){
     setState(() {
-      _movies.add(movie);
+
     });
   }
 

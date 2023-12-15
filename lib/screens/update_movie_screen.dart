@@ -16,18 +16,22 @@ class UpdateMovieScreen extends StatefulWidget {
 }
 
 class _UpdateMovieScreenState extends State<UpdateMovieScreen> {
+  final session = supabase.auth.currentSession;
+  var _movieTitleController = TextEditingController();
+  var _movieYearController = TextEditingController();
+  var _movieGenreController = TextEditingController();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _movieTitleController.text = widget.movie.title;
+    _movieYearController.text = widget.movie.year.toString();
+    _movieGenreController.text = widget.movie.genre;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final session = supabase.auth.currentSession;
-    var titleInput = widget.movie.title;
-    var yearInput = widget.movie.year.toString();
-    var genreInput = widget.movie.genre;
-    var _movieTitleController = TextEditingController(text: titleInput);
-    var _movieYearController = TextEditingController(text: yearInput);
-    var _movieGenreController = TextEditingController(text: genreInput);
-
     void showError(String errorMessage){
       showDialog(
           context: context,
@@ -59,9 +63,6 @@ class _UpdateMovieScreenState extends State<UpdateMovieScreen> {
         return;
       }
       else{
-        titleInput = _movieTitleController.text;
-        yearInput = year.toString();
-        genreInput = _movieGenreController.text;
         Movie movie = Movie(title: _movieTitleController.text, year: int.parse(_movieYearController.text), genre: _movieGenreController.text, context: context, uid: session?.user?.id, movieid: widget.movie.movieid);
         movie.updateMovie();
         Navigator.pop(context);

@@ -85,10 +85,12 @@ class AppUser{
           email: email.trim(),
         );
         id = result.user?.id;
+        print(result);
       } on AuthException catch (error) {
         showError(error.message);
         return;
       }
+      
 
       try {
         await supabase.from("user").insert({
